@@ -45,21 +45,20 @@ def browseFile(event):
 		pathFile.set(root.fileName)
 		readfile(root.fileName)
 
-topFrame = Frame(root, width=400, height=200)
+topFrame = Frame(root, bg="#006600")
 topFrame.pack()
 
-bottomFrame = Frame(root, width=400, height=300)
+bottomFrame = Frame(root)
 bottomFrame.pack(side=BOTTOM)
 
-label1 = Label(topFrame,text="Welcome to Harvest Optimizer")
-label1.config(font=("Arial", 14))
+label1 = Label(topFrame,fg="#1aff1a",text="Welcome to Harvest Optimizer",bg="#006600", font="Arial 14 bold")
 label1.pack()
 
-label2 = Label(topFrame,text="Please Select a farm file before beginning")
+label2 = Label(topFrame,fg="#1aff1a",text="Please Select a farm file before beginning",bg="#006600")
 label2.config(font=("Arial", 12))
 label2.pack()
 
-bt1 = Button(topFrame, text="Select Input File", fg="blue", width=30)
+bt1 = Button(topFrame, text="Select Input File", width=20, bg="blue")
 bt1.config(font=("Arial",10))
 bt1.bind("<ButtonRelease-1>",browseFile)
 bt1.pack()
@@ -100,7 +99,7 @@ tileUtilitiesLabel = Label(bottomFrame,textvariable= tileUtilities, justify=LEFT
 tileUtilitiesLabel.config(font=("Arial", 12),fg="red")
 tileUtilitiesLabel .pack()
 
-bt2 = Button(bottomFrame, text="Run", fg="red", command=run)
+bt2 = Button(bottomFrame, text="Run", width=20, bg="gray", command=run)
 #bt2.bind("<ButtonRelease-1>",run)
 bt2.pack()
 
