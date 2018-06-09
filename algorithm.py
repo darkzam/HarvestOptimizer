@@ -1,5 +1,6 @@
 import pulp
 import pandas as pd
+import time
 
 class InputObject:
 	
@@ -11,6 +12,7 @@ class InputObject:
 	tiempoParcelas = []
 	sumaTiempos = 0
 	utilidadesParcelas = []
+	runningTime = 0
 
 	def __init__(self, cantidadParcelas = 0, tiempoParcelas = [], sumaTiempos = 0, utilidadesParcelas = []):
 		self.cantidadParcelas = cantidadParcelas
@@ -57,7 +59,7 @@ class InputObject:
 		for i in range(0, self.cantidadParcelas):
 		    my_lp_problem+= pulp.lpSum([tiempos * varT[i][tiempos]] for tiempos in range(0,self.sumaTiempos)) == varTc[i]
 
-		#Restricciones de variables y
+		#Restriccion: Asociacion de variables auxiliares para aplicar el OR (Y1 + Y2 == 1)
 		count1 = 0
 		valor=0
 		for i in range (0,(self.cantidadParcelas-1)):
@@ -83,24 +85,31 @@ class InputObject:
 		            #print(count , ": " , i, j)
 		            count+=1
 
-
+		#Restriccion: El ultimo momento en el que puede iniciar una parcela es en: ultimo timepo - duracion de cosecha
+		#no se le resta uno ya que nuestro primer tiempo es 0
 		for i in range(0,self.cantidadParcelas):
-		    my_lp_problem += varTc[i] + self.tiempoParcelas[i] <= self.sumaTiempos
+		   # my_lp_problem += varTc[i] + self.tiempoParcelas[i] <= self.sumaTiempos
+		    my_lp_problem += varTc[i] <= (self.sumaTiempos - self.tiempoParcelas[i])
 
-
+		time1 = int(round(time.time() * 1000))
 		my_lp_problem.solve()
+		time2 = int(round(time.time() * 1000))
+		self.runningTime = time2 - time1
+
 		pulp.LpStatus[my_lp_problem.status]
 
 
 		#print("por aca paso1")
 		self.optTimes = []
+		contador2 = 1
 
 		for variable in my_lp_problem.variables():
 		    print("{} = {}".format(variable.name,variable.varValue))
 		    if variable.name.find("Tc")!= -1:
 		    	self.bestSolution.append(variable)
-		    	self.optTimes.append(int(variable.varValue))
-		    	self.solution = self.solution + " {} = {}".format(variable.name,variable.varValue)
+		    	self.optTimes.append(int(variable.varValue)+1)
+		    	self.solution = self.solution + "[Parcela " + str(contador2)+": " + str(int(variable.varValue)+1)+"] "
+		    	contador2 += 1
 
 		print(pulp.value(my_lp_problem.objective))
 
