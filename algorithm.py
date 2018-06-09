@@ -93,12 +93,13 @@ class InputObject:
 
 
 		#print("por aca paso1")
+		self.optTimes = []
 
 		for variable in my_lp_problem.variables():
 		    print("{} = {}".format(variable.name,variable.varValue))
 		    if variable.name.find("Tc")!= -1:
 		    	self.bestSolution.append(variable)
-		    	self.optTimes.append(variable.varValue)
+		    	self.optTimes.append(int(variable.varValue))
 		    	self.solution = self.solution + " {} = {}".format(variable.name,variable.varValue)
 
 		print(pulp.value(my_lp_problem.objective))
@@ -128,7 +129,8 @@ class InputObject:
 
 	def writeFile(self):
 
+		open("solution.txt", 'w').close()
 		archivo = open("solution.txt", 'w')
-		archivo.write(str(self.benefit)+"\n")
-		archivo.write(' '.join(str(e)for e in self.optTimes))
+		archivo.write(str(int(self.benefit))+"\n")
+		archivo.write(' '.join(str(e)for e in self.optTimes)+"\n")
 		archivo.close()

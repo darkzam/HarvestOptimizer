@@ -19,6 +19,10 @@ def readfile(path):
 
 		inputObject = InputObject()
 		inputObject.readFile(path)
+		tileAmount.set("")
+		tileTimes.set("")
+		totalTime.set("")
+		tileUtilities.set("")
 		tileAmount.set(inputObject.cantidadParcelas)
 		tileTimes.set(' '.join(str(e)for e in inputObject.tiempoParcelas))
 		totalTime.set(inputObject.sumaTiempos)
