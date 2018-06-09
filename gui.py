@@ -19,15 +19,11 @@ def readfile(path):
 
 		inputObject = InputObject()
 		inputObject.readFile(path)
-		tileAmount.set("")
-		tileTimes.set("")
-		totalTime.set("")
-		tileUtilities.set("")
 		tileAmount.set(inputObject.cantidadParcelas)
 		tileTimes.set(' '.join(str(e)for e in inputObject.tiempoParcelas))
 		totalTime.set(inputObject.sumaTiempos)
 		tileUtilities.set(' '.join(str(e)for e in inputObject.utilidadesParcelas))
-		#print(cantidadParcelas)
+		#print(fileName.get())
 
 def run():
 		#print("run algorithm")
@@ -41,6 +37,7 @@ def run():
 	
 
 def browseFile(event):
+		print(tileUtilities.get())
 		root.fileName = askopenfilename(filetypes=(("Tile Texts", ".txt"),("All files","*.*")))	
 		fileName.set("File Path: "+ root.fileName)
 		pathFile.set(root.fileName)

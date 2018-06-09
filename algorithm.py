@@ -109,6 +109,9 @@ class InputObject:
 
 	def readFile(self, path):
 
+		self.utilidadesParcelas = []
+		self.tiempoParcelas = []
+
 		archivo = open(path, 'r')
 		contador = 0
 		for linea in archivo.readlines():
